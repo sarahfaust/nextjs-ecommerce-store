@@ -4,7 +4,6 @@ import Layout from '../../components/Layout';
 export default function Products(props) {
   return (
     <Layout>
-      <div>Products</div>
       <div>
         {props.games.map((game) => {
           return (

@@ -15,14 +15,28 @@ function App({ Component, pageProps }) {
       text-decoration: none;
       margin-bottom: 12px;
       margin-right: 12px;
+      &:active {
+        color: blue;
+      }
+      &:hover {
+        color: darkgray;
+      }
     }
 
     p {
       margin: 0 0 12px 0;
     }
 
+    li {
+      list-style: none;
+    }
+
     * {
       box-sizing: border-box;
+    }
+
+    nav {
+      margin: 24px 0;
     }
   `;
 

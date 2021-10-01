@@ -11,32 +11,10 @@ const navStyles = css`
 export default function Header() {
   return (
     <header>
-      <div
-        css={{
-          backgroundColor: 'hotpink',
-          '&:hover': {
-            color: 'lightgreen',
-          },
-        }}
-      >
-        <div>test</div>
-        <div>test</div>
-        <div>test</div>
-      </div>
-      <div
-        css={css`
-          background-color: hotpink;
-          &:hover {
-            color: deeppink;
-          }
-        `}
-      >
-        This has a hotpink background.
-        <div>test</div>
-        <div>test</div>
-        <div>test</div>
-      </div>
-      <nav styles={navStyles}>
+      <nav css={navStyles}>
+        <Link href="/">
+          <a>Home</a>
+        </Link>
         <Link href="/products">
           <a>Products</a>
         </Link>
