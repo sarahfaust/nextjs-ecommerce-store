@@ -4,14 +4,14 @@ function App({ Component, pageProps }) {
   const globalStyles = css`
     html,
     body {
-      padding: 1rem;
       margin: 0;
-      font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
-        Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+      font-family: -apple-system, BlinkMacSystemFont, Roboto, Oxygen, Ubuntu,
+        Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+      background-color: #eeeeee;
     }
 
     a {
-      color: red;
+      color: #333333;
       text-decoration: none;
       margin-bottom: 12px;
       margin-right: 12px;
@@ -25,6 +25,7 @@ function App({ Component, pageProps }) {
 
     p {
       margin: 0 0 12px 0;
+      max-width: 250px;
     }
 
     li {
@@ -37,6 +38,11 @@ function App({ Component, pageProps }) {
 
     nav {
       margin: 24px 0;
+    }
+
+    label {
+      margin-right: 12px;
+      margin-bottom: 12px;
     }
   `;
 

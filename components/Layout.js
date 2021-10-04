@@ -2,13 +2,13 @@ import { css } from '@emotion/react';
 import Footer from './Footer';
 import Header from './Header';
 
-const homeStyles = css`
-  background-color: purple;
+const layoutStyles = css`
+  margin: 0 2rem;
 `;
 
 export default function Layout(props) {
   return (
-    <div css={homeStyles}>
+    <div css={layoutStyles}>
       <Header />
       {props.children}
       <Footer />
