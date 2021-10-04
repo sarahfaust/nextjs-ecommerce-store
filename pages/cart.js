@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import CartItem from '../components/CartItem';
 import Layout from '../components/Layout';
 import { getParsedCookie } from '../util/cookies';
 
@@ -32,19 +33,14 @@ export default function Cart(props) {
     <Layout>
       <ul>
         {currentCart.map((product) => (
-          <li key={product.id}>
-            Game: {product.name}, Amount: {product.amount}
-            <button>-</button>
-            <button>+</button>
-            <button>Delete</button>
-          </li>
+          <CartItem key={product.id} product={product} />
         ))}
       </ul>
     </Layout>
   );
 }
 
-export async function getServerSideProps(context) {
+export async function getServerSideProps() {
   const { games } = await import('../util/database');
 
   /*   const cartCookie = JSON.parse(context.req.cookies.cart);

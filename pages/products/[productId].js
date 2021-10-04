@@ -52,7 +52,6 @@ export default function Product(props) {
           { id: Number(props.currentGame.id), amount: amount },
         ];
         setParsedCookie('cart', newProductsInCart);
-        setParsedCookie('isUser', 'true');
         setProductsInCart(newProductsInCart);
       }
     }
