@@ -5,7 +5,23 @@ export default function CartItem(props) {
   const [productsInCart, setProductsInCart] = useState(
     getParsedCookie('cart') || [],
   );
+
   const [amount, setAmount] = useState(props.product.amount);
+
+  // why is this not working?
+  // Whe first useEffect is running before the second,
+  // and I think that the async/await should make it finish
+  // before the second useEffect runs.
+  // But productsInCart is still empty in the second useEffect.
+
+  /*   useEffect(() => {
+    const setCart = async () => {
+      const cookie = await getParsedCookie('cart');
+      console.log('cookie', cookie);
+      setProductsInCart(cookie || []);
+    };
+    setCart();
+  }, []); */
 
   useEffect(() => {
     const existingProduct = productsInCart.find(
@@ -29,7 +45,7 @@ export default function CartItem(props) {
   }
 
   return (
-    <li>
+    <li key={props.product.id}>
       Game: {props.product.name}, Amount: {amount}
       <button onClick={decreaseAmount}>-</button>
       <button onClick={increaseAmount}>+</button>

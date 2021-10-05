@@ -1,21 +1,26 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import CartItem from '../components/CartItem';
 import Layout from '../components/Layout';
 import { getParsedCookie } from '../util/cookies';
 
 export default function Cart(props) {
-  const [productsInCart, setProductsInCart] = useState(
-    getParsedCookie('cart') || [],
-  );
+  const [productsInCart, setProductsInCart] = useState([]);
 
-  /*   const currentCart = productsInCart.filter((productInCart) =>
-    props.games.find((game) => {
+  // I'm doing this because otherwise, the browser tells me that
+  // it was expecting "server HTML to contain a matching <li> in <ul>"
+  useEffect(() => {
+    setProductsInCart(getParsedCookie('cart') || []);
+  }, []);
+
+  // TODO: change the forEach to map/filter/whatever combination of them
+  /*   const filterCart = props.games.filter((game) => {
+    productsInCart.map((productInCart) => {
       if (productInCart.id === game.id) {
-        return { ...productInCart, ...game };
+        game.id = productInCart.id;
       }
-      return null;
-    }),
-  ); */
+      return productInCart;
+    });
+  }); */
 
   const currentCart = [];
 

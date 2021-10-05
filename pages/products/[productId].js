@@ -1,28 +1,33 @@
 import { css } from '@emotion/react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Layout from '../../components/Layout';
 import { getParsedCookie, setParsedCookie } from '../../util/cookies';
 
-export default function Product(props) {
-  const buttonStyles = css`
-    background-color: turquoise;
-    border: none;
-    padding: 8px;
-    border-radius: 4px;
-    min-width: 32px;
-    min-height: 32px;
-    font-weight: bold;
-    font-family: inherit;
-    margin-right: 12px;
-    margin-top: 12px;
-    &:hover {
-      background-color: darkturquoise;
-    }
-  `;
+const buttonStyles = css`
+  background-color: turquoise;
+  border: none;
+  padding: 8px;
+  border-radius: 4px;
+  min-width: 32px;
+  min-height: 32px;
+  font-weight: bold;
+  font-family: inherit;
+  margin-right: 12px;
+  margin-top: 12px;
+  &:hover {
+    background-color: darkturquoise;
+  }
+`;
 
+export default function Product(props) {
   const [productsInCart, setProductsInCart] = useState(
     getParsedCookie('cart') || [],
   );
+
+  /*   useEffect(() => {
+    setProductsInCart();
+  }, []);
+ */
 
   const product = productsInCart.find(
     (productInCart) => productInCart.id === Number(props.currentGame.id),
