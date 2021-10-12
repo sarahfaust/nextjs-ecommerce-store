@@ -19,8 +19,10 @@ export default function Products(props) {
   );
 }
 
-export async function getServerSideProps(context) {
-  const { games } = await import('../../util/database');
+export async function getServerSideProps() {
+  const { getGames } = await import('../../util/database');
+  const games = await getGames();
+  console.log(games);
 
   return {
     props: {

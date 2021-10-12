@@ -1,4 +1,61 @@
-const mechanism = {
+import camelcaseKeys from 'camelcase-keys';
+import dotenvSafe from 'dotenv-safe';
+import postgres from 'postgres';
+
+// dotenv-safe is a library that can read environment variables
+// in the .env file making it possible to connect to PostgreSQL
+dotenvSafe.config();
+
+// This piece of code ensures that I connect to the database only once
+// by setting the global this to our postgres connection (?)
+// https://github.com/vercel/next.js/issues/7811#issuecomment-715259370
+function connectOneTimeToDatabase() {
+  let sql;
+
+  if (process.env.NODE_ENV === 'production') {
+    // Heroku needs SSL connections but has an "unauthorized" certificate
+    // https://devcenter.heroku.com/changelog-items/852
+    sql = postgres({ ssl: { rejectUnauthorized: false } });
+  } else {
+    // When we're in development, make sure that we connect only
+    // once to the database
+    if (!globalThis.__postgresSqlClient) {
+      globalThis.__postgresSqlClient = postgres();
+    }
+    sql = globalThis.__postgresSqlClient;
+  }
+
+  return sql;
+}
+
+// This connects me to PostgreSQL by invoking the function defined above
+const sql = connectOneTimeToDatabase();
+
+export async function getGames() {
+  const games = await sql`
+    SELECT * FROM game;
+  `;
+  return games.map((game) => {
+    return camelcaseKeys(game);
+  });
+}
+
+export async function getGame(id) {
+  const games = await sql`
+    SELECT
+      *
+    FROM
+      game
+    WHERE
+      id = ${id};
+  `;
+  return camelcaseKeys(games[0]);
+}
+
+// First check to see if database is conndected and works. It works! :)
+// sql`SELECT * FROM game;`.then((results) => console.log('results', results));
+
+const mechanisms = {
   deckbuild: 'Deckbuilding',
   coop: 'Cooperative',
   worker: 'Worker Placement',
@@ -13,7 +70,7 @@ const mechanism = {
   action: 'Action Points',
 };
 
-const category = {
+const categories = {
   adv: 'Adventure',
   abstract: 'Abstract',
   campaign: 'Campaign',
@@ -32,15 +89,16 @@ export const games = [
   {
     id: 1,
     name: 'Wingspan',
-    category: [category.strategy],
+    category: [categories.strategy],
     mechanism: [
-      mechanism.setColl,
-      mechanism.engine,
-      mechanism.dice,
-      mechanism.action,
+      mechanisms.setColl,
+      mechanisms.engine,
+      mechanisms.dice,
+      mechanisms.action,
     ],
     price: 50,
-    desc: 'This is an awesome game that will make evenings with your friends and family fun and exciting.',
+    description:
+      'Attract a beautiful and diverse collection of birds to your wildlife reserve.',
     playersMin: 2,
     playersMax: 4,
     timeMin: 60,
@@ -49,15 +107,16 @@ export const games = [
   {
     id: 2,
     name: 'Pandemic',
-    category: [category.strategy],
+    category: [categories.strategy],
     mechanism: [
-      mechanism.coop,
-      mechanism.varPower,
-      mechanism.setColl,
-      mechanism.action,
+      mechanisms.coop,
+      mechanisms.varPower,
+      mechanisms.setColl,
+      mechanisms.action,
     ],
     price: 50,
-    desc: 'This is an awesome game that will make evenings with your friends and family fun and exciting.',
+    description:
+      'Your team of experts must prevent the world from succumbing to a viral pandemic.',
     playersMin: 2,
     playersMax: 4,
     timeMin: 60,
@@ -66,10 +125,11 @@ export const games = [
   {
     id: 3,
     name: 'Legends of Andor',
-    category: [category.adv, category.campaign],
-    mechanism: [mechanism.coop, mechanism.area, mechanism.action],
+    category: [categories.adv, categories.campaign],
+    mechanism: [mechanisms.coop, mechanisms.area, mechanisms.action],
     price: 50,
-    desc: 'This is an awesome game that will make evenings with your friends and family fun and exciting.',
+    description:
+      'A group of heroes carefully executes the defense of a besieged kingdom.',
     playersMin: 2,
     playersMax: 4,
     timeMin: 60,
@@ -78,10 +138,11 @@ export const games = [
   {
     id: 4,
     name: 'Azul',
-    category: [category.strategy, category.abstract],
-    mechanism: [mechanism.setColl, mechanism.tile],
+    category: [categories.strategy, categories.abstract],
+    mechanism: [mechanisms.setColl, mechanisms.tile],
     price: 50,
-    desc: 'This is an awesome game that will make evenings with your friends and family fun and exciting.',
+    description:
+      'Artfully embellish the walls of your palace by drafting the most beautiful tiles.',
     playersMin: 2,
     playersMax: 4,
     timeMin: 60,
@@ -89,11 +150,12 @@ export const games = [
   },
   {
     id: 5,
-    name: 'Clank!',
-    category: [category.adv, category.fantasy],
-    mechanism: [mechanism.coop, mechanism.deckbuild],
+    name: 'Clank!: A Deck-Building Adventure',
+    category: [categories.adv, categories.fantasy],
+    mechanism: [mechanisms.coop, mechanisms.deckbuild],
     price: 50,
-    desc: 'This is an awesome game that will make evenings with your friends and family fun and exciting.',
+    description:
+      "Claim your treasures but don't attract the dragon in this deck-building dungeon race.",
     playersMin: 2,
     playersMax: 4,
     timeMin: 60,
@@ -101,11 +163,12 @@ export const games = [
   },
   {
     id: 6,
-    name: 'The Crew',
-    category: [category.adv, category.scifi],
-    mechanism: [mechanism.coop, mechanism.trick],
+    name: 'The Crew: The Quest for Planet Nine',
+    category: [categories.adv, categories.scifi],
+    mechanism: [mechanisms.coop, mechanisms.trick],
     price: 50,
-    desc: 'This is an awesome game that will make evenings with your friends and family fun and exciting.',
+    description:
+      'Go on a planet-discovering space mission in this cooperative trick-taking game.',
     playersMin: 2,
     playersMax: 4,
     timeMin: 60,
@@ -113,11 +176,12 @@ export const games = [
   },
   {
     id: 7,
-    name: 'Robinson Crusoe',
-    category: [category.adv, category.explore],
-    mechanism: [mechanism.coop, mechanism.dice, mechanism.tile],
+    name: 'Robinson Crusoe: Adventures on the Cursed Island',
+    category: [categories.adv, categories.explore],
+    mechanism: [mechanisms.coop, mechanisms.dice, mechanisms.tile],
     price: 50,
-    desc: 'This is an awesome game that will make evenings with your friends and family fun and exciting.',
+    description:
+      'Work together — with friends or with Friday — to survive on a deserted island.',
     playersMin: 2,
     playersMax: 4,
     timeMin: 60,
@@ -126,10 +190,11 @@ export const games = [
   {
     id: 8,
     name: 'T.I.M.E. Stories',
-    category: [category.adv, category.time, category.scifi],
-    mechanism: [mechanism.coop, mechanism.story, mechanism.dice],
+    category: [categories.adv, categories.time, categories.scifi],
+    mechanism: [mechanisms.coop, mechanisms.story, mechanisms.dice],
     price: 50,
-    desc: 'This is an awesome game that will make evenings with your friends and family fun and exciting.',
+    description:
+      'Protect the world from paradoxes with your team of time-traveling agents.',
     playersMin: 2,
     playersMax: 4,
     timeMin: 60,
@@ -137,11 +202,12 @@ export const games = [
   },
   {
     id: 9,
-    name: 'Detective',
-    category: [category.mystery],
-    mechanism: [mechanism.coop, mechanism.story],
+    name: 'Detective: A Modern Crime Board Game',
+    category: [categories.mystery],
+    mechanism: [mechanisms.coop, mechanisms.story],
     price: 50,
-    desc: 'This is an awesome game that will make evenings with your friends and family fun and exciting.',
+    description:
+      'Use modern tools and become Antares Detectives solving the most difficult cases.',
     playersMin: 2,
     playersMax: 4,
     timeMin: 60,
@@ -150,15 +216,16 @@ export const games = [
   {
     id: 10,
     name: 'Above and Below',
-    category: [category.adv, category.fantasy, category.explore],
+    category: [categories.adv, categories.fantasy, categories.explore],
     mechanism: [
-      mechanism.worker,
-      mechanism.dice,
-      mechanism.setColl,
-      mechanism.story,
+      mechanisms.worker,
+      mechanisms.dice,
+      mechanisms.setColl,
+      mechanisms.story,
     ],
     price: 50,
-    desc: 'This is an awesome game that will make evenings with your friends and family fun and exciting.',
+    description:
+      'Build your newly founded village above while exploring the caves and stories below.',
     playersMin: 2,
     playersMax: 4,
     timeMin: 60,

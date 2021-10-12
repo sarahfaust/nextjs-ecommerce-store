@@ -10,6 +10,14 @@ function App({ Component, pageProps }) {
       background-color: #eeeeee;
     }
 
+    @font-face {
+      font-family: 'Faustina';
+      font-style: normal;
+      font-weight: 700;
+      src: local(''), url('/fonts/Faustina/Faustina.woff') format('woff'),
+        url('/fonts/Faustina/Faustina.ttf') format('truetype');
+    }
+
     a {
       color: #333333;
       text-decoration: none;

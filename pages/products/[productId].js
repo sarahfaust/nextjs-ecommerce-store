@@ -1,22 +1,40 @@
-import { css } from '@emotion/react';
-import { useEffect, useState } from 'react';
+import styled from '@emotion/styled';
+import Image from 'next/image';
+import { useState } from 'react';
 import Layout from '../../components/Layout';
 import { getParsedCookie, setParsedCookie } from '../../util/cookies';
 
-const buttonStyles = css`
-  background-color: turquoise;
+const Button = styled.button`
+  background-color: white;
   border: none;
-  padding: 8px;
+  padding: 12px;
   border-radius: 4px;
-  min-width: 32px;
-  min-height: 32px;
+  min-width: 40px;
+  min-height: 40px;
   font-weight: bold;
   font-family: inherit;
-  margin-right: 12px;
-  margin-top: 12px;
   &:hover {
     background-color: darkturquoise;
   }
+`;
+
+const CounterWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 160px;
+  border: solid 2px darkgrey;
+  border-radius: 4px;
+  background-color: white;
+`;
+
+const AmountWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+  padding: 0;
+  background-color: white;
 `;
 
 export default function Product(props) {
@@ -24,13 +42,8 @@ export default function Product(props) {
     getParsedCookie('cart') || [],
   );
 
-  /*   useEffect(() => {
-    setProductsInCart();
-  }, []);
- */
-
   const product = productsInCart.find(
-    (productInCart) => productInCart.id === Number(props.currentGame.id),
+    (productInCart) => productInCart.id === props.currentGame.id,
   );
 
   const initAmount = product ? product.amount : 0;
@@ -43,18 +56,18 @@ export default function Product(props) {
     } else {
       const currentCart = getParsedCookie('cart') || [];
       const isInCart = currentCart.some(
-        (productInCart) => productInCart.id === Number(props.currentGame.id),
+        (productInCart) => productInCart.id === props.currentGame.id,
       );
       if (isInCart) {
         const existingProduct = currentCart.find(
-          (productInCart) => productInCart.id === Number(props.currentGame.id),
+          (productInCart) => productInCart.id === props.currentGame.id,
         );
         existingProduct.amount = amount;
         setParsedCookie('cart', currentCart);
       } else {
         const newProductsInCart = [
           ...productsInCart,
-          { id: Number(props.currentGame.id), amount: amount },
+          { id: props.currentGame.id, amount: amount },
         ];
         setParsedCookie('cart', newProductsInCart);
         setProductsInCart(newProductsInCart);
@@ -72,43 +85,43 @@ export default function Product(props) {
 
   return (
     <Layout>
+      <Image
+        src={`/${props.currentGame.image}.webp`}
+        alt={`${props.currentGame.image} game box front`}
+        width={200}
+        height={200}
+      />
       <h3>{props.currentGame.name}</h3>
       <p>{props.currentGame.price} €</p>
-      <p>{props.currentGame.desc}</p>
+      <p>{props.currentGame.description}</p>
       <div>
-        <label>Amount: {amount}</label>
+        <CounterWrapper>
+          <Button onClick={decreaseAmount}>-</Button>
+          <AmountWrapper>
+            <label>{amount}</label>
+          </AmountWrapper>
+          <Button
+            onClick={() => {
+              setAmount((prevAmount) => prevAmount + 1);
+            }}
+          >
+            +
+          </Button>
+        </CounterWrapper>
       </div>
       <div>
-        <button css={buttonStyles} onClick={decreaseAmount}>
-          -
-        </button>
-        <button
-          css={buttonStyles}
-          onClick={() => {
-            setAmount((prevAmount) => prevAmount + 1);
-          }}
-        >
-          +
-        </button>
+        <Button onClick={addProductToCart}>Add to cart</Button>
       </div>
       <div>
-        <button css={buttonStyles} onClick={addProductToCart}>
-          Add to cart
-        </button>
-      </div>
-      <div>
-        <button css={buttonStyles}>Go to checkout</button>
+        <Button>Go to checkout</Button>
       </div>
     </Layout>
   );
 }
 
 export async function getServerSideProps(context) {
-  const { games } = await import('../../util/database');
-
-  const gameId = Number(context.query.productId);
-
-  const currentGame = games.find((game) => game.id === gameId);
+  const { getGame } = await import('../../util/database');
+  const currentGame = await getGame(context.query.productId);
 
   return {
     props: {

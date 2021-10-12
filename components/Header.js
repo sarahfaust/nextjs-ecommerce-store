@@ -42,17 +42,17 @@ export default function Header() {
     <header css={headerStyles}>
       <nav css={navStyles}>
         <Link href="/">
-          <a>Home</a>
+          <a>HOME</a>
         </Link>
         <Link href="/products">
-          <a>Products</a>
+          <a>GAMES</a>
         </Link>
         <Link href="/cart">
-          <a>Cart</a>
+          <a>CART</a>
         </Link>
       </nav>
       <div css={navStyles}>
-        <a>Cart: {sum}</a>
+        <a>{sum} in CART</a>
       </div>
     </header>
   );
