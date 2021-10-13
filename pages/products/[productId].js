@@ -1,8 +1,7 @@
 import styled from '@emotion/styled';
 import Image from 'next/image';
 import { useState } from 'react';
-import Layout from '../../components/Layout';
-import { getParsedCookie, setParsedCookie } from '../../util/cookies';
+import { addItem } from '../../util/cookies';
 
 const Button = styled.button`
   background-color: white;
@@ -38,94 +37,56 @@ const AmountWrapper = styled.div`
 `;
 
 export default function Product(props) {
-  const [productsInCart, setProductsInCart] = useState(
-    getParsedCookie('cart') || [],
-  );
-
-  const product = productsInCart.find(
-    (productInCart) => productInCart.id === props.currentGame.id,
-  );
-
-  const initAmount = product ? product.amount : 0;
-
-  const [amount, setAmount] = useState(initAmount);
-
-  function addProductToCart() {
-    if (amount === 0) {
-      alert('Please tell us how many games you would like.');
-    } else {
-      const currentCart = getParsedCookie('cart') || [];
-      const isInCart = currentCart.some(
-        (productInCart) => productInCart.id === props.currentGame.id,
-      );
-      if (isInCart) {
-        const existingProduct = currentCart.find(
-          (productInCart) => productInCart.id === props.currentGame.id,
-        );
-        existingProduct.amount = amount;
-        setParsedCookie('cart', currentCart);
-      } else {
-        const newProductsInCart = [
-          ...productsInCart,
-          { id: props.currentGame.id, amount: amount },
-        ];
-        setParsedCookie('cart', newProductsInCart);
-        setProductsInCart(newProductsInCart);
-      }
-    }
-  }
-
-  function decreaseAmount() {
-    if (amount === 0) {
-      setAmount(0);
-    } else {
-      setAmount((prevAmount) => prevAmount - 1);
-    }
-  }
+  const [amount, setAmount] = useState(0);
 
   return (
-    <Layout>
+    <>
       <Image
-        src={`/${props.currentGame.image}.webp`}
-        alt={`${props.currentGame.image} game box front`}
+        src={`/${props.game.image}.webp`}
+        alt={`${props.game.image} game box front`}
         width={200}
         height={200}
       />
-      <h3>{props.currentGame.name}</h3>
-      <p>{props.currentGame.price} €</p>
-      <p>{props.currentGame.description}</p>
+      <h3>{props.game.name}</h3>
+      <p>{props.game.price} €</p>
+      <p>{props.game.description}</p>
       <div>
         <CounterWrapper>
-          <Button onClick={decreaseAmount}>-</Button>
+          <Button onClick={() => setAmount((prev) => prev - 1)}>-</Button>
           <AmountWrapper>
             <label>{amount}</label>
           </AmountWrapper>
-          <Button
-            onClick={() => {
-              setAmount((prevAmount) => prevAmount + 1);
-            }}
-          >
-            +
-          </Button>
+          <Button onClick={() => setAmount((prev) => prev + 1)}>+</Button>
         </CounterWrapper>
       </div>
       <div>
-        <Button onClick={addProductToCart}>Add to cart</Button>
+        <Button
+          onClick={() => {
+            if (amount === 0) {
+              alert('Please tell us how many games you would like.');
+            } else {
+              props.setCart(addItem(props.cart, props.game.id, amount));
+              setAmount(0);
+            }
+          }}
+        >
+          Add to cart
+        </Button>
       </div>
       <div>
         <Button>Go to checkout</Button>
       </div>
-    </Layout>
+    </>
   );
 }
 
 export async function getServerSideProps(context) {
   const { getGame } = await import('../../util/database');
-  const currentGame = await getGame(context.query.productId);
+  const game = await getGame(context.query.productId);
 
   return {
     props: {
-      currentGame,
+      game: game,
     },
   };
 }

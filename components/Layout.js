@@ -9,7 +9,7 @@ const layoutStyles = css`
 export default function Layout(props) {
   return (
     <div css={layoutStyles}>
-      <Header />
+      <Header itemSum={props.itemSum} />
       {props.children}
       <Footer />
     </div>

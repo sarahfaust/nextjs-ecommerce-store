@@ -1,7 +1,5 @@
 import { css } from '@emotion/react';
 import Link from 'next/link';
-import { useEffect, useState } from 'react';
-import { getParsedCookie } from '../util/cookies';
 
 const headerStyles = css`
   display: flex;
@@ -20,39 +18,27 @@ const logoStyles = css`
   color: purple;
 `;
 
-export default function Header() {
-  const [productsInCart, setProductsInCart] = useState([]);
-
-  useEffect(() => {
-    setProductsInCart(getParsedCookie('cart') || []);
-  }, []);
-
-  const initSum = productsInCart.reduce(
-    (acc, product) => acc + product.amount,
-    0,
-  );
-
-  const [sum, setSum] = useState(initSum);
-
-  // TODO:
-  // Would work so far, but how do I display changes in the cookies here,
-  // e.g. when the amount for a product is changed in a cart item?
+export default function Header(props) {
+  // The reduce logic I was doing here was working so far, but I wasn't sure how to display changes
+  // in the cookies in the header (when the amount for a product is changed in a cart item). Tried
+  // with useEffect/re-rendering on cart changes, ended up in endless loops.
+  // I realized that I needed to pass
 
   return (
     <header css={headerStyles}>
       <nav css={navStyles}>
         <Link href="/">
-          <a>HOME</a>
+          <a>Home</a>
         </Link>
         <Link href="/products">
-          <a>GAMES</a>
+          <a>Games</a>
         </Link>
         <Link href="/cart">
-          <a>CART</a>
+          <a>Cart</a>
         </Link>
       </nav>
       <div css={navStyles}>
-        <a>{sum} in CART</a>
+        <a>{props.itemSum} in Cart</a>
       </div>
     </header>
   );

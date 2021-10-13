@@ -1,21 +1,18 @@
 import Link from 'next/link';
-import Layout from '../../components/Layout';
 
 export default function Products(props) {
   return (
-    <Layout>
-      <div>
-        {props.games.map((game) => {
-          return (
-            <li key={game.id}>
-              <Link href={`/products/${game.id}`}>
-                <a>{game.name}</a>
-              </Link>
-            </li>
-          );
-        })}
-      </div>
-    </Layout>
+    <div>
+      {props.games.map((game) => {
+        return (
+          <li key={game.id}>
+            <Link href={`/products/${game.id}`}>
+              <a>{game.name}</a>
+            </Link>
+          </li>
+        );
+      })}
+    </div>
   );
 }
 
