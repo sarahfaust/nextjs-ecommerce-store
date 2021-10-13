@@ -24,22 +24,21 @@ export function increaseAmount(cart, id) {
 
 // returns updated cart (list)
 export function decreaseAmount(cart, id) {
-  console.log('decrease');
-  return cart.map((cartItem) => {
-    if (cartItem.id === id && cartItem.amount > 1) {
-      return { ...cartItem, amount: (cartItem.amount -= 1) };
-    } else if (cartItem.id === id && cartItem.amount === 1) {
-      return { ...cartItem, amount: 0 };
-    }
-    return cartItem;
-  });
+  return cart
+    .filter((cartItem) => cartItem.amount !== 1)
+    .map((cartItem) => {
+      if (cartItem.id === id) {
+        return { ...cartItem, amount: (cartItem.amount -= 1) };
+      }
+      return cartItem;
+    });
 }
 
-export function addItem(cart, currentId, amount) {
-  const isInCart = cart.some((product) => product.id === currentId);
+export function addItem(cart, id, amount) {
+  const isInCart = cart.some((product) => product.id === id);
   if (isInCart) {
     const newCart = cart.map((product) => {
-      if (product.id === currentId) {
+      if (product.id === id) {
         return {
           ...product,
           amount: product.amount + amount,
@@ -49,8 +48,10 @@ export function addItem(cart, currentId, amount) {
     });
     return newCart;
   } else {
-    return [...cart, { id: currentId, amount: amount }];
+    return [...cart, { id: id, amount: amount }];
   }
 }
 
-export function deleteItem() {}
+export function deleteItem(cart, id) {
+  return cart.filter((cartItem) => cartItem.id !== id);
+}

@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { decreaseAmount, increaseAmount } from '../util/cookies';
+import { decreaseAmount, deleteItem, increaseAmount } from '../util/cookies';
 
 const CartItemCard = styled.div`
   padding: 24px;
@@ -16,9 +16,9 @@ export default function CartItem(props) {
       <CartItemCard>
         <GameName>{props.product.name} </GameName>
         <button
-          onClick={() =>
-            props.setCart(decreaseAmount(props.cart, props.product.id))
-          }
+          onClick={() => {
+            props.setCart(decreaseAmount(props.cart, props.product.id));
+          }}
         >
           -
         </button>
@@ -30,7 +30,13 @@ export default function CartItem(props) {
         >
           +
         </button>
-        <button>Delete</button>
+        <button
+          onClick={() =>
+            props.setCart(deleteItem(props.cart, props.product.id))
+          }
+        >
+          Delete
+        </button>
       </CartItemCard>
     </li>
   );

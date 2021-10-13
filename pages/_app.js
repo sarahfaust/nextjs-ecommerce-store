@@ -82,9 +82,7 @@ function App({ Component, pageProps }) {
   }, [cart]);
 
   useEffect(() => {
-    if (cart.length > 0) {
-      setItemSum(cart.reduce((acc, product) => acc + product.amount, 0));
-    }
+    setItemSum(cart.reduce((acc, product) => acc + product.amount, 0));
   }, [cart]);
 
   return (
