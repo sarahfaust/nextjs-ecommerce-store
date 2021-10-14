@@ -17,8 +17,8 @@ function connectOneTimeToDatabase() {
     // https://devcenter.heroku.com/changelog-items/852
     sql = postgres({ ssl: { rejectUnauthorized: false } });
   } else {
-    // When we're in development, make sure that we connect only
-    // once to the database
+    // When we're in development, we want to make sure that we connect
+    // to the database only one time
     if (!globalThis.__postgresSqlClient) {
       globalThis.__postgresSqlClient = postgres();
     }
@@ -55,7 +55,7 @@ export async function getGame(id) {
 // First check to see if database is conndected and works. It works! :)
 // sql`SELECT * FROM game;`.then((results) => console.log('results', results));
 
-const mechanisms = {
+/* const mechanisms = {
   deckbuild: 'Deckbuilding',
   coop: 'Cooperative',
   worker: 'Worker Placement',
@@ -232,3 +232,4 @@ export const games = [
     timeMax: 120,
   },
 ];
+ */

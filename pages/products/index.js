@@ -1,18 +1,29 @@
-import Link from 'next/link';
+import styled from '@emotion/styled';
+import { ProductCard } from '../../components/ProductCard';
+
+const ProductsSection = styled.section`
+  display: flex;
+  justify-content: center;
+`;
+
+const ProductsContainer = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+`;
 
 export default function Products(props) {
   return (
-    <div>
-      {props.games.map((game) => {
-        return (
-          <li key={game.id}>
-            <Link href={`/products/${game.id}`}>
-              <a>{game.name}</a>
-            </Link>
-          </li>
-        );
-      })}
-    </div>
+    <ProductsSection>
+      <ProductsContainer>
+        {props.games.map((game) => {
+          return (
+            <li key={game.id}>
+              <ProductCard game={game} />
+            </li>
+          );
+        })}
+      </ProductsContainer>
+    </ProductsSection>
   );
 }
 

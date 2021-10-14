@@ -33,12 +33,16 @@ export default function Header(props) {
         <Link href="/products">
           <a>Games</a>
         </Link>
-        <Link href="/cart">
-          <a>Cart</a>
+        <Link href="/products">
+          <a>About</a>
         </Link>
       </nav>
       <div css={navStyles}>
-        <a>{props.itemSum} in Cart</a>
+        <Link href="/cart">
+          <a>
+            {props.itemSum} {props.itemSum > 1 ? 'items' : 'item'} in Cart
+          </a>
+        </Link>
       </div>
     </header>
   );

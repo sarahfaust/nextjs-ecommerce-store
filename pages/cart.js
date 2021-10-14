@@ -15,6 +15,13 @@ export default function Cart(props) {
     });
   });
 
+  /*   const totalPrice = currentCart.reduce(
+    (acc, product) => acc + product.amount * product.price,
+    0,
+  );
+
+  setTotal(totalPrice); */
+
   return (
     <>
       <ul>
@@ -33,7 +40,8 @@ export default function Cart(props) {
 }
 
 export async function getServerSideProps() {
-  const { games } = await import('../util/database');
+  const { getGames } = await import('../util/database');
+  const games = await getGames();
 
   return {
     props: {
