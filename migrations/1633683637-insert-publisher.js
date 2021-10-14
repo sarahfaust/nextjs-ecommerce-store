@@ -1,6 +1,16 @@
 const publishers = [
-  { name: 'Z-Man Games', website: 'https://www.zmangames.com' },
-  { name: 'Stonemaier Games', website: 'https://www.zmangames.com' },
+  { id: 1, name: 'Z-Man Games', website: 'https://www.zmangames.com' },
+  { id: 2, name: 'Stonemaier Games', website: 'https://stonemaiergames.com' },
+  { id: 3, name: 'Next Move Games', website: 'https://www.nextmovegames.com' },
+  { id: 4, name: 'Kosmos', website: 'https://www.kosmos.de' },
+  {
+    id: 5,
+    name: 'Renegade Game Studios',
+    website: 'https://renegadegamestudios.com',
+  },
+  { id: 6, name: 'Portal Games', website: 'https://portalgames.pl/pl' },
+  { id: 7, name: 'Space Cowboys', website: 'https://www.spacecowboys.fr' },
+  { id: 8, name: 'Red Raven Games', website: 'https://www.redravengames.com' },
 ];
 
 exports.up = async function (sql) {
@@ -8,9 +18,9 @@ exports.up = async function (sql) {
   for (const publisher of publishers) {
     await sql`
       INSERT INTO publisher
-        (name, website)
+        (id, name, website)
       VALUES
-        (${publisher.name}, ${publisher.website});
+        (${publisher.id}, ${publisher.name}, ${publisher.website});
 		`;
   }
 };
@@ -22,7 +32,7 @@ exports.down = async function (sql) {
 			DELETE FROM
 				publisher
 			WHERE
-				name = ${publisher.name} AND website = ${publisher.website};
+				id = ${publisher.id} AND name = ${publisher.name} AND website = ${publisher.website};
 		`;
   }
 };
