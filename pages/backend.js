@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Button } from '../components/Button';
 import { ColCard, Container, h2Style } from '../styles';
 
@@ -34,28 +34,83 @@ export default function Checkout(props) {
   const [title, setTitle] = useState('');
   const [subtitle, setSubtitle] = useState('');
   const [price, setPrice] = useState('');
-  const [publisher, setPublisher] = useState('');
-  const [designers, setDesigners] = useState('');
+  const [id, setId] = useState(0);
+  const [currentGame, setCurrentGame] = useState({});
+  const [isEdit, setIsEdit] = useState(false);
+
+  useEffect(() => {
+    const selectedGame = props.games.find((game) => {
+      console.log(game.id, id);
+      return game.id === id;
+    });
+    console.log(selectedGame);
+    setCurrentGame(selectedGame);
+  }, [id, props.games]);
 
   return (
     <Container>
       <ColCard>
         <h2 css={h2Style}>Add/edit product</h2>
         <Form>
+          <Button
+            onClick={(event) => {
+              event.preventDefault();
+              setIsEdit((prev) => !prev);
+            }}
+            margin="24px 0"
+          >
+            {isEdit ? 'Add game' : 'Edit game'}
+          </Button>
           <Label htmlFor="title">Title</Label>
-          <Input id="title" name="title" />
+          {isEdit ? (
+            <Select
+              id="games"
+              name="games"
+              onChange={(event) => {
+                setId(event.currentTarget.value);
+              }}
+            >
+              {props.games.map((game) => (
+                <option key={game.id} value={game.id}>
+                  {game.name}
+                </option>
+              ))}
+            </Select>
+          ) : (
+            <Input id="title" name="title" />
+          )}
           <Label htmlFor="subtitle">Subtitle</Label>
           <Input id="subtitle" name="subtitle" />
           <Label htmlFor="price">Price</Label>
           <Input id="price" name="price" />
           <Label htmlFor="publisher">Publisher</Label>
-          <Select id="publisher" name="publisher" />
+          <Select id="publishers" name="publishers">
+            {props.publishers.map((publisher) => (
+              <option key={publisher.id}>{publisher.name}</option>
+            ))}
+          </Select>
           <Label htmlFor="designers">Designers</Label>
-          <Select id="designers" name="designers" />
+          <Select id="designers" name="designers">
+            {props.designers.map((designer) => (
+              <option key={designer.id}>
+                {designer.firstName} {designer.lastName}
+              </option>
+            ))}
+          </Select>
           <Label htmlFor="categories">Categories</Label>
-          <Select id="categories" name="categories" />
+          <Select id="categories" name="categories">
+            {props.categories.map((category) => (
+              <option key={category.id} value={category.kind}>
+                {category.kind}
+              </option>
+            ))}
+          </Select>
           <Label htmlFor="mechanisms">Mechanisms</Label>
-          <Select id="mechanisms" name="mechanisms" />
+          <Select id="mechanisms" name="mechanisms">
+            {props.mechanisms.map((mechanism) => (
+              <option key={mechanism.id}>{mechanism.kind}</option>
+            ))}
+          </Select>
           <Button>Submit</Button>
         </Form>
       </ColCard>
@@ -64,13 +119,26 @@ export default function Checkout(props) {
 }
 
 export async function getServerSideProps() {
-  const { getGames } = await import('../util/database');
+  const {
+    getGames,
+    getPublishers,
+    getDesigners,
+    getCategories,
+    getMechanisms,
+  } = await import('../util/database');
   const games = await getGames();
-  console.log(games);
+  const publishers = await getPublishers();
+  const designers = await getDesigners();
+  const categories = await getCategories();
+  const mechanisms = await getMechanisms();
 
   return {
     props: {
       games: games,
+      publishers: publishers,
+      designers: designers,
+      categories: categories,
+      mechanisms: mechanisms,
     },
   };
 }

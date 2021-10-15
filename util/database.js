@@ -31,6 +31,7 @@ function connectOneTimeToDatabase() {
 // This connects me to PostgreSQL by invoking the function defined above
 const sql = connectOneTimeToDatabase();
 
+// GAMES
 export async function getGames() {
   const games = await sql`
     SELECT * FROM game;
@@ -50,6 +51,94 @@ export async function getGame(id) {
       id = ${id};
   `;
   return camelcaseKeys(games[0]);
+}
+
+// PUBLISHERS
+export async function getPublishers() {
+  const publishers = await sql`
+    SELECT * FROM publisher;
+  `;
+  return publishers.map((publisher) => {
+    return camelcaseKeys(publisher);
+  });
+}
+
+export async function getPublisher(id) {
+  const publishers = await sql`
+    SELECT
+      *
+    FROM
+      publisher
+    WHERE
+      id = ${id};
+  `;
+  return camelcaseKeys(publishers[0]);
+}
+
+// DESIGNERS
+export async function getDesigners() {
+  const designers = await sql`
+    SELECT * FROM designer;
+  `;
+  return designers.map((designer) => {
+    return camelcaseKeys(designer);
+  });
+}
+
+export async function getDesigner(id) {
+  const designers = await sql`
+    SELECT
+      *
+    FROM
+      designer
+    WHERE
+      id = ${id};
+  `;
+  return camelcaseKeys(designers[0]);
+}
+
+// CATEGORIES
+export async function getCategories() {
+  const categories = await sql`
+    SELECT * FROM category;
+  `;
+  return categories.map((category) => {
+    return camelcaseKeys(category);
+  });
+}
+
+export async function getCategory(id) {
+  const categories = await sql`
+    SELECT
+      *
+    FROM
+      category
+    WHERE
+      id = ${id};
+  `;
+  return camelcaseKeys(categories[0]);
+}
+
+// MECHANISMS
+export async function getMechanisms() {
+  const mechanisms = await sql`
+    SELECT * FROM mechanism;
+  `;
+  return mechanisms.map((mechanism) => {
+    return camelcaseKeys(mechanism);
+  });
+}
+
+export async function getMechanism(id) {
+  const mechanisms = await sql`
+    SELECT
+      *
+    FROM
+      mechanism
+    WHERE
+      id = ${id};
+  `;
+  return camelcaseKeys(mechanisms[0]);
 }
 
 // First check to see if database is conndected and works. It works! :)

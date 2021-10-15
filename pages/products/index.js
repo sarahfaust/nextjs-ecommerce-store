@@ -31,7 +31,6 @@ export default function Products(props) {
 export async function getServerSideProps() {
   const { getGames } = await import('../../util/database');
   const games = await getGames();
-  console.log(games);
 
   return {
     props: {

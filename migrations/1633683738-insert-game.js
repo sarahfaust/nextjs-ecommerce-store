@@ -1,6 +1,5 @@
 const games = [
   {
-    id: 1,
     publisherId: 2,
     name: 'Wingspan',
     subtitle: '',
@@ -14,7 +13,6 @@ const games = [
     timeMax: 70,
   },
   {
-    id: 2,
     publisherId: 1,
     name: 'Pandemic',
     subtitle: '',
@@ -28,7 +26,6 @@ const games = [
     timeMax: 45,
   },
   {
-    id: 3,
     publisherId: 4,
     name: 'Legends of Andor',
     subtitle: '',
@@ -42,7 +39,6 @@ const games = [
     timeMax: 90,
   },
   {
-    id: 4,
     publisherId: 3,
     name: 'Azul',
     subtitle: '',
@@ -56,7 +52,6 @@ const games = [
     timeMax: 45,
   },
   {
-    id: 5,
     publisherId: 5,
     name: 'Clank!',
     subtitle: 'A Deck-Building Adventure',
@@ -70,7 +65,6 @@ const games = [
     timeMax: 60,
   },
   {
-    id: 6,
     publisherId: 4,
     name: 'The Crew',
     subtitle: 'The Quest for Planet Nine',
@@ -84,7 +78,6 @@ const games = [
     timeMax: 20,
   },
   {
-    id: 7,
     publisherId: 6,
     name: 'Robinson Crusoe',
     subtitle: 'Adventures on the Cursed Island',
@@ -98,7 +91,6 @@ const games = [
     timeMax: 120,
   },
   {
-    id: 8,
     publisherId: 7,
     name: 'T.I.M.E. Stories',
     subtitle: '',
@@ -112,7 +104,6 @@ const games = [
     timeMax: 90,
   },
   {
-    id: 9,
     publisherId: 6,
     name: 'Detective',
     subtitle: 'A Modern Crime Board Game',
@@ -126,7 +117,6 @@ const games = [
     timeMax: 180,
   },
   {
-    id: 10,
     publisherId: 8,
     name: 'Above and Below',
     subtitle: '',
@@ -146,9 +136,9 @@ exports.up = async function (sql) {
   for (const game of games) {
     await sql`
       INSERT INTO game
-        (id, publisher_id, name, subtitle, price, description, image, players_min, players_max, time_min, time_max)
+        (publisher_id, name, subtitle, price, description, image, players_min, players_max, time_min, time_max)
       VALUES
-        (${game.id}, ${game.publisherId}, ${game.name}, ${game.subtitle}, ${game.price}, ${game.description}, ${game.image}, ${game.playersMin}, ${game.playersMax}, ${game.timeMin}, ${game.timeMax});
+        (${game.publisherId}, ${game.name}, ${game.subtitle}, ${game.price}, ${game.description}, ${game.image}, ${game.playersMin}, ${game.playersMax}, ${game.timeMin}, ${game.timeMax});
 		`;
   }
 };
@@ -160,7 +150,7 @@ exports.down = async function (sql) {
 			DELETE FROM
 				game
 			WHERE
-        id = ${game.id} AND publisher_id = ${game.publisherId} AND name = ${game.name} AND subtitle = ${game.subtitle} AND price = ${game.price} AND description = ${game.description} AND image = ${game.image} AND players_min = ${game.playersMin} AND players_max = ${game.playersMax} AND time_min = ${game.timeMin} AND time_max = ${game.timeMax};
+       publisher_id = ${game.publisherId} AND name = ${game.name} AND subtitle = ${game.subtitle} AND price = ${game.price} AND description = ${game.description} AND image = ${game.image} AND players_min = ${game.playersMin} AND players_max = ${game.playersMax} AND time_min = ${game.timeMin} AND time_max = ${game.timeMax};
 		`;
   }
 };
