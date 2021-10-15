@@ -1,5 +1,12 @@
+import styled from '@emotion/styled';
 import { useState } from 'react';
 import CartItem from '../components/CartItem';
+import { ColCard, Container, h2Style } from '../styles';
+
+const Total = styled.p`
+  font-weight: 500;
+  padding: 24px 0 0;
+`;
 
 export default function Cart(props) {
   const [total, setTotal] = useState(0);
@@ -23,19 +30,24 @@ export default function Cart(props) {
   setTotal(totalPrice); */
 
   return (
-    <>
-      <ul>
-        {currentCart.map((product) => (
-          <CartItem
-            key={product.id}
-            product={product}
-            cart={props.cart}
-            setCart={props.setCart}
-          />
-        ))}
-      </ul>
-      <div>{total}</div>
-    </>
+    <Container>
+      <ColCard>
+        <h2 css={h2Style}>Shopping Cart</h2>
+        <ul>
+          {currentCart.map((product) => (
+            <CartItem
+              key={product.id}
+              product={product}
+              cart={props.cart}
+              setCart={props.setCart}
+            />
+          ))}
+        </ul>
+        <div>
+          <Total>Total: {total} €</Total>
+        </div>
+      </ColCard>
+    </Container>
   );
 }
 

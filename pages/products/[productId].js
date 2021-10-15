@@ -1,74 +1,88 @@
 import styled from '@emotion/styled';
 import Image from 'next/image';
+import Link from 'next/link';
 import { useState } from 'react';
 import { AmountSelector } from '../../components/AmountSelector';
 import { Button } from '../../components/Button';
+import { Container, h2Style, RowCard, TextStyle } from '../../styles';
 import { addItem } from '../../util/cookies';
-
-const ProductContainer = styled.section`
-  display: flex;
-  flex-direction: row;
-  align-items: stretch;
-  padding: 36px;
-  margin: 36px;
-  background-color: whitesmoke;
-  border-radius: 8px;
-  box-shadow: 2px 2px 11px 4px rgba(125, 125, 125, 0.1);
-`;
 
 const ProductInfo = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  padding: 24px;
+  padding: 0 24px;
+`;
+
+const Interact = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
 `;
 
 const InteractRow = styled.div`
   display: flex;
   align-items: center;
+  padding: 12px 0;
 `;
 
 export default function Product(props) {
   const [amount, setAmount] = useState(0);
 
   return (
-    <ProductContainer>
-      <Image
-        src={`/${props.game.image}.webp`}
-        alt={`${props.game.image} game box front`}
-        width={200}
-        height={200}
-      />
-      <ProductInfo>
-        <h3>{props.game.name}</h3>
-        <p>{props.game.price} €</p>
-        <p>{props.game.description}</p>
-        <InteractRow>
-          <AmountSelector
-            onClickMinus={() => {
-              if (amount > 0) {
-                setAmount((prev) => prev - 1);
-              }
-            }}
-            amount={amount}
-            onClickPlus={() => setAmount((prev) => prev + 1)}
-          />
-          <Button
-            onClick={() => {
-              if (amount === 0) {
-                alert('Please tell us how many games you would like.');
-              } else {
-                props.setCart(addItem(props.cart, props.game.id, amount));
-                setAmount(0);
-              }
-            }}
-          >
-            Add to cart
-          </Button>
-          <Button>Go to checkout</Button>
-        </InteractRow>
-      </ProductInfo>
-    </ProductContainer>
+    <Container>
+      <RowCard>
+        <Image
+          src={`/${props.game.image}.webp`}
+          alt={`${props.game.image} game box front`}
+          width={200}
+          height={200}
+        />
+        <ProductInfo>
+          <h2 css={h2Style}>{props.game.name}</h2>
+          <TextStyle>{props.game.price} €</TextStyle>
+          <TextStyle>
+            {props.game.description} {props.game.playersMin} to{' '}
+            {props.game.playersMax} people can play this game. An average round
+            takes{' '}
+            {props.game.timeMin === props.game.timeMax
+              ? `around ${props.game.timeMin} minutes`
+              : `from ${props.game.timeMin} to ${props.game.timeMax}`}
+            .
+          </TextStyle>
+          <Interact>
+            <InteractRow>
+              <AmountSelector
+                onClickMinus={() => {
+                  if (amount > 0) {
+                    setAmount((prev) => prev - 1);
+                  }
+                }}
+                amount={amount}
+                onClickPlus={() => setAmount((prev) => prev + 1)}
+              />
+              <Button
+                onClick={() => {
+                  if (amount === 0) {
+                    alert('Please tell us how many games you would like.');
+                  } else {
+                    props.setCart(addItem(props.cart, props.game.id, amount));
+                    setAmount(0);
+                  }
+                }}
+                margin="0 12px 0 0"
+              >
+                Add to cart
+              </Button>
+            </InteractRow>
+            <Link href="/checkout">
+              <a>Go to checkout</a>
+            </Link>
+          </Interact>
+        </ProductInfo>
+      </RowCard>
+    </Container>
   );
 }
 

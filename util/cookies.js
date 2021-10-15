@@ -55,3 +55,7 @@ export function addItem(cart, id, amount) {
 export function deleteItem(cart, id) {
   return cart.filter((cartItem) => cartItem.id !== id);
 }
+
+export function findItem(cart, id) {
+  return cart.filter((product) => product.id === id);
+}

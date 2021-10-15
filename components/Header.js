@@ -1,21 +1,33 @@
-import { css } from '@emotion/react';
+import styled from '@emotion/styled';
 import Link from 'next/link';
 
-const headerStyles = css`
+const HeaderStyle = styled.header`
   display: flex;
   justify-content: space-between;
 `;
 
-const navStyles = css`
+const Navigation = styled.nav`
   display: flex;
-  gap: 12px;
+  align-items: center;
+  gap: 24px;
   background-color: #eeeeee;
-  margin-top: 2rem;
+  margin: 2rem;
 `;
 
-const logoStyles = css`
-  margin: 0;
-  color: purple;
+const Logo = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+  line-height: 0.9;
+  border: 2px solid #292f36;
+`;
+
+const LogoText = styled.p`
+  font-size: 2rem;
+  font-weight: 700;
+  color: #292f36;
 `;
 
 export default function Header(props) {
@@ -25,25 +37,33 @@ export default function Header(props) {
   // I realized that I needed to pass
 
   return (
-    <header css={headerStyles}>
-      <nav css={navStyles}>
+    <HeaderStyle>
+      <Navigation>
         <Link href="/">
-          <a>Home</a>
+          <a>
+            <Logo>
+              <LogoText>BOARD</LogoText>
+              <LogoText>GAMES</LogoText>
+            </Logo>
+          </a>
         </Link>
         <Link href="/products">
-          <a>Games</a>
+          <a>Shop Games</a>
         </Link>
-        <Link href="/products">
+        <Link href="/about">
           <a>About</a>
         </Link>
-      </nav>
-      <div css={navStyles}>
+        <Link href="/backend">
+          <a>Backend</a>
+        </Link>
+      </Navigation>
+      <Navigation>
         <Link href="/cart">
           <a>
             {props.itemSum} {props.itemSum > 1 ? 'items' : 'item'} in Cart
           </a>
         </Link>
-      </div>
-    </header>
+      </Navigation>
+    </HeaderStyle>
   );
 }

@@ -1,10 +1,6 @@
 import styled from '@emotion/styled';
 import { ProductCard } from '../../components/ProductCard';
-
-const ProductsSection = styled.section`
-  display: flex;
-  justify-content: center;
-`;
+import { Container, h1Style } from '../../styles';
 
 const ProductsContainer = styled.div`
   display: flex;
@@ -13,17 +9,22 @@ const ProductsContainer = styled.div`
 
 export default function Products(props) {
   return (
-    <ProductsSection>
+    <Container>
+      <h1 css={h1Style}>Products</h1>
       <ProductsContainer>
         {props.games.map((game) => {
           return (
             <li key={game.id}>
-              <ProductCard game={game} />
+              <ProductCard
+                game={game}
+                cart={props.cart}
+                setCart={props.setCart}
+              />
             </li>
           );
         })}
       </ProductsContainer>
-    </ProductsSection>
+    </Container>
   );
 }
 
