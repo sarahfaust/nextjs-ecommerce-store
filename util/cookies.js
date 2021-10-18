@@ -2,7 +2,16 @@ import Cookies from 'js-cookie';
 
 export function getParsedCookie(key) {
   try {
-    return JSON.parse(Cookies.get(key));
+    const cookies = JSON.parse(Cookies.get(key));
+
+    cookies.map((cookie) => {
+      if (cookie.amount < 0) {
+        return { cookie, ...(cookie.amount = Math.abs(cookie.amount)) };
+      } else {
+        return cookie;
+      }
+    });
+    return cookies;
   } catch (err) {
     return undefined;
   }
