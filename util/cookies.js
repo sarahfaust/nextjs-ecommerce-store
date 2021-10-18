@@ -25,13 +25,13 @@ export function increaseAmount(cart, id) {
 // returns updated cart (list)
 export function decreaseAmount(cart, id) {
   return cart
-    .filter((cartItem) => cartItem.amount !== 1)
     .map((cartItem) => {
       if (cartItem.id === id) {
         return { ...cartItem, amount: (cartItem.amount -= 1) };
       }
       return cartItem;
-    });
+    })
+    .filter((cartItem) => cartItem.amount > 0);
 }
 
 export function addItem(cart, id, amount) {
