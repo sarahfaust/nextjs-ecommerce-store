@@ -28,6 +28,7 @@ const Input = styled.input`
 export default function Checkout(props) {
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
+  const [email, setEmail] = useState('');
   const [address, setAddress] = useState('');
   const [city, setCity] = useState('');
   const [postcode, setPostcode] = useState('');
@@ -44,6 +45,7 @@ export default function Checkout(props) {
             id="firstname"
             name="firstname"
             value={firstName}
+            data-cy="checkout-input-firstname"
             onChange={(event) => setFirstName(event.currentTarget.value)}
           />
           <Label htmlFor="lastname">Last name</Label>
@@ -51,13 +53,23 @@ export default function Checkout(props) {
             id="lastname"
             name="lastname"
             value={lastName}
+            data-cy="checkout-input-lastname"
             onChange={(event) => setLastName(event.currentTarget.value)}
+          />
+          <Label htmlFor="email">E-Mail</Label>
+          <Input
+            id="email"
+            name="email"
+            value={email}
+            data-cy="checkout-input-email"
+            onChange={(event) => setEmail(event.currentTarget.value)}
           />
           <Label htmlFor="address">Address</Label>
           <Input
             id="address"
             name="address"
             value={address}
+            data-cy="checkout-input-address"
             onChange={(event) => setAddress(event.currentTarget.value)}
           />
           <Label htmlFor="city">City</Label>
@@ -65,17 +77,26 @@ export default function Checkout(props) {
             id="city"
             name="city"
             value={city}
+            data-cy="checkout-input-city"
             onChange={(event) => setCity(event.currentTarget.value)}
           />
-          <Label
-            htmlFor="postcode"
+          <Label htmlFor="postcode">Postcode</Label>
+          <Input
+            id="postcode"
+            name="postcode"
             value={postcode}
+            data-cy="checkout-input-postcode"
             onChange={(event) => setPostcode(event.currentTarget.value)}
+          />
+          <Button
+            onClick={(event) => {
+              event.preventDefault();
+              router.push('/thanks');
+            }}
+            dataCy="checkout-buy-button"
           >
-            Postcode
-          </Label>
-          <Input id="postcode" name="postcode" />
-          <Button onClick={() => router.push('/thanks')}>Submit</Button>
+            Buy
+          </Button>
         </Form>
       </ColCard>
     </Container>

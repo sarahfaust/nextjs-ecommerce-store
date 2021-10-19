@@ -10,7 +10,7 @@ const ProductsContainer = styled.div`
 export default function Products(props) {
   return (
     <Container>
-      <h1 css={h1Style} data-cy="page-products-header">
+      <h1 css={h1Style} data-cy="page-products-heading">
         Products
       </h1>
       <ProductsContainer>

@@ -79,7 +79,7 @@ export default function Product(props) {
               </Button>
             </InteractRow>
             <Link href="/checkout">
-              <a>Go to checkout</a>
+              <a data-cy="product-checkout-link">Go to checkout</a>
             </Link>
           </Interact>
         </ProductInfo>

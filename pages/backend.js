@@ -50,7 +50,7 @@ export default function Checkout(props) {
   return (
     <Container>
       <ColCard>
-        <h2 css={h2Style} data-cy="page-backend-header">
+        <h2 css={h2Style} data-cy="page-backend-heading">
           Add/edit product
         </h2>
         <Form>
@@ -113,7 +113,7 @@ export default function Checkout(props) {
               <option key={mechanism.id}>{mechanism.kind}</option>
             ))}
           </Select>
-          <Button>Submit</Button>
+          <Button>Save</Button>
         </Form>
       </ColCard>
     </Container>

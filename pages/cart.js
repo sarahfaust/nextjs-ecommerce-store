@@ -28,7 +28,7 @@ export default function Cart(props) {
   return (
     <Container>
       <ColCard>
-        <h2 css={h2Style} data-cy="page-cart-header">
+        <h2 css={h2Style} data-cy="page-cart-heading">
           Shopping Cart
         </h2>
         {currentCart.length > 0 ? (
