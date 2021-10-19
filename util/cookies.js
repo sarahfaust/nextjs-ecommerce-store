@@ -1,17 +1,21 @@
 import Cookies from 'js-cookie';
 
+function checkCookies(cookies) {
+  return cookies.map((cookie) => {
+    if (cookie.amount < 0) {
+      return { ...cookie, amount: Math.abs(cookie.amount) };
+    } else {
+      return cookie;
+    }
+  });
+}
+
 export function getParsedCookie(key) {
   try {
-    const cookies = JSON.parse(Cookies.get(key));
-
-    cookies.map((cookie) => {
-      if (cookie.amount < 0) {
-        return { cookie, ...(cookie.amount = Math.abs(cookie.amount)) };
-      } else {
-        return cookie;
-      }
-    });
-    return cookies;
+    if (key === 'cart') {
+      return checkCookies(JSON.parse(Cookies.get(key)));
+    }
+    return JSON.parse(Cookies.get(key));
   } catch (err) {
     return undefined;
   }
