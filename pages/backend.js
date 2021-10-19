@@ -50,7 +50,9 @@ export default function Checkout(props) {
   return (
     <Container>
       <ColCard>
-        <h2 css={h2Style}>Add/edit product</h2>
+        <h2 css={h2Style} data-cy="page-backend-header">
+          Add/edit product
+        </h2>
         <Form>
           <Button
             onClick={(event) => {

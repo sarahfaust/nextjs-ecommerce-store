@@ -49,7 +49,7 @@ export function ProductCard(props) {
   return (
     <Card>
       <Link href={`/products/${props.game.id}`}>
-        <a css={linkStyles}>
+        <a css={linkStyles} data-cy={`products-item-${props.game.id}`}>
           <Content>
             <Image
               src={`/${props.game.image}.webp`}

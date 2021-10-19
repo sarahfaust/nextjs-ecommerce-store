@@ -30,6 +30,7 @@ export function Button(props) {
       onClick={props.onClick}
       margin={props.margin}
       disabled={props.disabled}
+      data-cy={props.dataCy}
     >
       {props.children}
     </SquareButton>

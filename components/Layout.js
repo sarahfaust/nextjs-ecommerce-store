@@ -5,7 +5,7 @@ export default function Layout(props) {
   return (
     <>
       <Header itemSum={props.itemSum} />
-      {props.children}
+      <main>{props.children}</main>
       <Footer />
     </>
   );

@@ -47,9 +47,9 @@ export default function Product(props) {
             {props.game.playersMax} people can play this game. An average round
             takes{' '}
             {props.game.timeMin === props.game.timeMax
-              ? `around ${props.game.timeMin} minutes`
-              : `from ${props.game.timeMin} to ${props.game.timeMax}`}
-            .
+              ? `around ${props.game.timeMin}`
+              : `from ${props.game.timeMin} to ${props.game.timeMax}`}{' '}
+            minutes.
           </TextStyle>
           <Interact>
             <InteractRow>
@@ -61,6 +61,7 @@ export default function Product(props) {
                 }}
                 amount={amount}
                 onClickPlus={() => setAmount((prev) => prev + 1)}
+                dataCy={`product-amount-${props.game.id}`}
               />
               <Button
                 onClick={() => {
@@ -72,6 +73,7 @@ export default function Product(props) {
                   }
                 }}
                 margin="0 12px 0 0"
+                dataCy={`product-add-button-${props.game.id}`}
               >
                 Add to cart
               </Button>

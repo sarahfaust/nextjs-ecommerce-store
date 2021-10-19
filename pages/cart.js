@@ -28,10 +28,12 @@ export default function Cart(props) {
   return (
     <Container>
       <ColCard>
-        <h2 css={h2Style}>Shopping Cart</h2>
+        <h2 css={h2Style} data-cy="page-cart-header">
+          Shopping Cart
+        </h2>
         {currentCart.length > 0 ? (
           <>
-            <ul>
+            <ul data-cy="cart-items">
               {currentCart.map((product) => (
                 <CartItem
                   key={product.id}
@@ -42,7 +44,7 @@ export default function Cart(props) {
               ))}
             </ul>
             <div>
-              <Total>Total: {total} €</Total>
+              <Total data-cy="cart-total">Total: {total} €</Total>
             </div>
             <Link href="/checkout">
               <a>Go to checkout</a>

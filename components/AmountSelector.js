@@ -22,9 +22,18 @@ const Amount = styled.div`
 export function AmountSelector(props) {
   return (
     <Container>
-      <RoundButton onClick={props.onClickMinus}>-</RoundButton>
-      <Amount>{props.amount}</Amount>
-      <RoundButton onClick={props.onClickPlus}>+</RoundButton>
+      <RoundButton
+        onClick={props.onClickMinus}
+        dataCy="product-amount-decrease"
+      >
+        -
+      </RoundButton>
+      <Amount>
+        <label data-cy={props.dataCy}>{props.amount}</label>
+      </Amount>
+      <RoundButton onClick={props.onClickPlus} dataCy="product-amount-increase">
+        +
+      </RoundButton>
     </Container>
   );
 }

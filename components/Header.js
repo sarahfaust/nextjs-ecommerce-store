@@ -48,19 +48,19 @@ export default function Header(props) {
           </a>
         </Link>
         <Link href="/products">
-          <a>Shop Games</a>
+          <a data-cy="header-products-link">Shop Games</a>
         </Link>
         <Link href="/about">
-          <a>About</a>
+          <a data-cy="header-about-link">About</a>
         </Link>
         <Link href="/backend">
-          <a>Backend</a>
+          <a data-cy="header-backend-link">Backend</a>
         </Link>
       </Navigation>
       <Navigation>
         <Link href="/cart">
-          <a>
-            {props.itemSum} {props.itemSum > 1 ? 'items' : 'item'} in Cart
+          <a data-cy="header-cart-link">
+            {props.itemSum} {props.itemSum === 1 ? 'item' : 'items'} in Cart
           </a>
         </Link>
       </Navigation>

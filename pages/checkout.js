@@ -19,6 +19,7 @@ const Label = styled.label`
 
 const Input = styled.input`
   margin-bottom: 24px;
+  padding: 8px;
   height: 36px;
   min-width: 240px;
   font-family: inherit;

@@ -10,7 +10,9 @@ const ProductsContainer = styled.div`
 export default function Products(props) {
   return (
     <Container>
-      <h1 css={h1Style}>Products</h1>
+      <h1 css={h1Style} data-cy="page-products-header">
+        Products
+      </h1>
       <ProductsContainer>
         {props.games.map((game) => {
           return (

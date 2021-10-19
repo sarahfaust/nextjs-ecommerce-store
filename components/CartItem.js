@@ -58,7 +58,7 @@ export default function CartItem(props) {
   }
 
   return (
-    <li key={props.product.id}>
+    <li key={props.product.id} data-cy="cart-item">
       <Item>
         <ProductDetails>
           <Image
@@ -83,6 +83,7 @@ export default function CartItem(props) {
             onClick={() =>
               props.setCart(deleteItem(props.cart, props.product.id))
             }
+            dataCy={`cart-delete-button-${props.product.id}`}
           >
             Delete
           </Button>
