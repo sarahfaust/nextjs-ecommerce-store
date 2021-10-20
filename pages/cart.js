@@ -47,7 +47,7 @@ export default function Cart(props) {
               <Total data-cy="cart-total">Total: {total} €</Total>
             </div>
             <Link href="/checkout">
-              <a>Go to checkout</a>
+              <a data-cy="cart-checkout-link">Go to checkout</a>
             </Link>{' '}
           </>
         ) : (
